@@ -10,6 +10,7 @@ import edit from '../public/icons/edit.svg';
 import plus from '../public/icons/plus.svg';
 
 export default function Column({ title, color }: IColumn) {
+
 	const [isHovered, setIsHovered] = useState(false);
 
 	const handleMouseEnter = () => {
@@ -43,4 +44,5 @@ export default function Column({ title, color }: IColumn) {
 			</ul>
 		</li>
 	);
+
 }
