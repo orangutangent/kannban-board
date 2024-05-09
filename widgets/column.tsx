@@ -9,7 +9,7 @@ export default function Column({ title, color }: IColumn) {
   }, []);
 
   const CardMap = (data: ICard, index: number) => {
-    return data.status === title ? <Card1 {...data} {...{color}}  key={index} /> : <></>;
+    return data.status === title ? <Card1 color={color} {...data}   key={index} /> : <></>;
   };
   const { cards, fetchCards } = useCards();
   return (
