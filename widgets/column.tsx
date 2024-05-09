@@ -1,7 +1,7 @@
 import useCards, { ICard } from "@/features/useCards";
 import { IColumn } from "@/features/useColumns";
 import { useEffect } from "react";
-import Card1 from "../app/shared/UI/card";
+import Card1 from "../shared/UI/card";
 
 export default function Column({ title, color }: IColumn) {
   useEffect(() => {
