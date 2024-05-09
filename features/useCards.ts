@@ -14,7 +14,7 @@ interface UseCardsInterface {
     fetchCards: () => void
     addCard: (card: ICard) => void
     updateCard: (card: ICard) => void
-    deleteCard: (id: string) => void
+    deleteCard: (id: number) => void
 }
 
 const fetchCards = async () => {
@@ -49,7 +49,7 @@ const useCards = create<UseCardsInterface>((set) => ({
         const data = await fetchCards()
         set({ cards: data })
     },
-    deleteCard: async (id: string) => {
+    deleteCard: async (id: number) => {
         await axios.delete(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${id}`)
         const data = await fetchCards()
         set({ cards: data })
