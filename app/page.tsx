@@ -1,33 +1,33 @@
-'use client'
+'use client';
 
-import useCards, { ICard } from "@/features/useCards";
-import useColumns from "@/features/useColumns";
-import { useEffect } from "react";
-import Column from "../widgets/column";
+import useCards, { ICard } from '@/features/useCards';
+import useColumns from '@/features/useColumns';
+import { useEffect } from 'react';
+import Column from '../widgets/column';
+
 export default function Home() {
-  const { cards, fetchCards, addCard, updateCard, deleteCard } = useCards()
-  const { columns, fetchColumns } = useColumns()
-  useEffect(()=>{
-    fetchColumns()
-  
-}, [])
+	const { cards, fetchCards, addCard, updateCard, deleteCard } = useCards();
+	const { columns, fetchColumns } = useColumns();
+	useEffect(() => {
+		fetchColumns();
+	}, []);
 
-  const onAddClick = () => {
-    addCard({ title: "hello", description: "world", status: "todo", tag: [] })
-  }
-  
-  const onUpdateClick = (card: ICard) => {
-    updateCard({ ...card, title: "updated" })
-  }
-  return (
-    <main className="w-screen h-screen ">
-      <ul className="flex flex-row gap-1">
-      {columns.map((data, key)=><Column {...data} key={key}/>)}
-      </ul>
-      
-      
-     
-      {/* <div className="flex gap-4 cursor-pointer">
+	const onAddClick = () => {
+		addCard({ title: 'hello', description: 'world', status: 'todo', tag: [] });
+	};
+
+	const onUpdateClick = (card: ICard) => {
+		updateCard({ ...card, title: 'updated' });
+	};
+	return (
+		<main className='w-screen h-screen'>
+			<ul className='flex m-[40px] gap-[24px]'>
+				{columns.map((data, key) => (
+					<Column {...data} key={key} />
+				))}
+			</ul>
+
+			{/* <div className="flex gap-4 cursor-pointer">
 
       <button onClick={fetchCards}>Fetch</button>
       <button onClick={onAddClick}>Add</button>
@@ -45,6 +45,6 @@ export default function Home() {
 
         ))}
       </div> */}
-    </main>
-  );
+		</main>
+	);
 }
