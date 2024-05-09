@@ -1,22 +1,22 @@
-import { create } from "zustand";
 import axios from "axios";
+import { create } from "zustand";
 
-type Column = {
+export interface IColumn {
     id: string
     title: string
     color: string
 }
 
-type UseColumnsInterface = {
-    columns: Column[]
+interface UseColumnsInterface {
+    columns: IColumn[]
     fetchColumns: () => void
-    addColumn: (column: Column) => void
+    addColumn: (column: IColumn) => void
     deleteColumn: (id: string) => void
-    updateColumn: (column: Column) => void
+    updateColumn: (column: IColumn) => void
 }
 
 const fetchColumns = async () => {
-    const { data } = await axios.get('/api/columns')
+    const { data } = await axios.get('https://663baf1ffee6744a6ea2910b.mockapi.io/columns')
     return data
 }
 
@@ -26,7 +26,7 @@ const useColumns = create<UseColumnsInterface>((set) => ({
         const data = await fetchColumns()
         set({ columns: data })
     },
-    addColumn: async (column: Column) => {
+    addColumn: async (column: IColumn) => {
         await axios.post('https://663baf1ffee6744a6ea2910b.mockapi.io/columns', column)
         const data = await fetchColumns()
         set({ columns: data })
@@ -36,7 +36,7 @@ const useColumns = create<UseColumnsInterface>((set) => ({
         const data = await fetchColumns()
         set({ columns: data })
     },
-    updateColumn: async (column: Column) => {
+    updateColumn: async (column: IColumn) => {
         await axios.put(`https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${column.id}`, column)
         const data = await fetchColumns()
         set({ columns: data })

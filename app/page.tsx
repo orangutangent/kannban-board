@@ -1,20 +1,33 @@
 'use client'
 
-import React from "react";
-import useCards, { Card } from "@/features/useCards";
-
+import useCards, { ICard } from "@/features/useCards";
+import useColumns from "@/features/useColumns";
+import { useEffect } from "react";
+import Column from "../widgets/column";
 export default function Home() {
   const { cards, fetchCards, addCard, updateCard, deleteCard } = useCards()
+  const { columns, fetchColumns } = useColumns()
+  useEffect(()=>{
+    fetchColumns()
+  
+}, [])
+
   const onAddClick = () => {
-    addCard({ title: "hello", description: "world", status: "todo", tags: [] })
+    addCard({ title: "hello", description: "world", status: "todo", tag: [] })
   }
   
-  const onUpdateClick = (card: Card) => {
+  const onUpdateClick = (card: ICard) => {
     updateCard({ ...card, title: "updated" })
   }
   return (
     <main className="w-screen h-screen ">
-      <div className="flex gap-4 cursor-pointer">
+      <ul className="flex flex-row gap-1">
+      {columns.map((data, key)=><Column {...data} key={key}/>)}
+      </ul>
+      
+      
+     
+      {/* <div className="flex gap-4 cursor-pointer">
 
       <button onClick={fetchCards}>Fetch</button>
       <button onClick={onAddClick}>Add</button>
@@ -31,7 +44,7 @@ export default function Home() {
           </div>
 
         ))}
-      </div>
+      </div> */}
     </main>
   );
 }
