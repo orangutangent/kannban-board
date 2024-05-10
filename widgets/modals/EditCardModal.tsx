@@ -2,66 +2,77 @@
 import useCards, { ICard } from "@/features/useCards";
 import Input from "@/shared/UI/Input";
 import Modal from "@/shared/UI/modal";
-import useCreateCardModal from "@/features/useCreateCardModal";
 import React from "react";
 import Textarea from "@/shared/UI/Textarea";
 import { IoAdd } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import useEditCardModal from "@/features/useEditCardModal";
+import axios from "axios";
 
 interface IProps {
-    columnTitle: string
+    cardId: number
 }
 
-const CreateCardModal: React.FC<IProps> = ({columnTitle}) => {
-    const { isOpen, setClose } = useCreateCardModal()
-    const { addCard } = useCards()
-    const [card,setCard] = React.useState<ICard>({
+const EditCardModal: React.FC<IProps> = ({cardId}) => {
+    const { isOpen, setClose } = useEditCardModal()
+    const [newCard,setNewCard] = React.useState<ICard>({
+        id: cardId,
         title: "",
         description: "",
-        status: "todo",
-        tag: [],
-    } as ICard)
+        status: "",
+        tag: []
+    }as ICard)
+    const { updateCard } = useCards()
+    React.useEffect(() => {
+        const getCard = async () => {
+            
+            const { data } = await axios.get(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${cardId}`)
+            return data
+        }
+        getCard().then((data) => setNewCard(data))
+    },[cardId,isOpen])
     const handleAddTags = (e: any) => {
         e.preventDefault()
-        setCard({...card, tag: [...card.tag, ""]})
+        setNewCard({...newCard, tag: [...newCard.tag, ""]})
     }
     const body = (
         <div className="w-full flex flex-col gap-4 text-black   ">
             <label htmlFor="title">Title</label>
-            <Input placeholder="title" name="title" onChange={(e) => {
+            <Input placeholder="title" name="title"  onChange={(e) => {
                 e.preventDefault()
-                setCard({...card, title: e.target.value})
-            }} value={card.title}/>
+                setNewCard({...newCard, title: e.target.value})
+            }} value={newCard.title}/>
             <label htmlFor="description">Description</label>
             <Textarea placeholder="description" name="description" onChange={(e) => {
                 e.preventDefault()
-                setCard({...card, description: e.target.value})
-            }} value={card.description}/>
+                setNewCard({...newCard, description: e.target.value})
+            }} value={newCard.description}/>
             <div className="flex gap-2 items-center ">
                 <label htmlFor="tag">Tags</label>
                 <button 
                 className="flex items-center justify-center h-min hover:bg-[#EBEBFF] hover:scale-105 p-[2px] rounded-full"
-                onClick={(e)=>handleAddTags(e)}>
+                onClick={(e)=>{
+                    handleAddTags(e)}}>
                     <IoAdd size={20} />
                 </button>
             </div>
-            {card.tag && card.tag.map((tag, i) => 
+            {newCard.tag && newCard.tag.map((tag, i) => 
             <div key={i} className="w-full flex gap-2 items-center">
 
                 <Input  placeholder="Tag" name="tag" value={tag} 
                     onChange={(e)=>{
-                        let newTags = [...card.tag]
+                        let newTags = [...newCard.tag]
                         newTags[i] = e.target.value
-                        setCard({...card, tag: newTags})
+                        setNewCard({...newCard, tag: newTags})
                     }}
                 />
                 <button 
                 className="flex items-center h-min justify-center hover:bg-[#EBEBFF] hover:scale-105 p-[2px] rounded-full"
                 onClick={(e) => {
                     e.preventDefault()
-                    let newTags = [...card.tag]
+                    let newTags = [...newCard.tag]
                     newTags.splice(i, 1)
-                    setCard({...card, tag: newTags})
+                    setNewCard({...newCard, tag: newTags})
                 }}>
                     <IoClose size={20} />
                 </button>
@@ -72,12 +83,12 @@ const CreateCardModal: React.FC<IProps> = ({columnTitle}) => {
 
     const onSubmit = (e: any) => {
         e.preventDefault()
-        console.log(card)
-        addCard({...card, status: columnTitle})
+        updateCard(newCard)
+        setClose()
     }
     return ( 
-        <Modal title="Create New Card" actionLabel="Create" body={body} onSubmit={(e)=>onSubmit(e)} onClose={setClose} isOpen={isOpen}/>
+        <Modal title="Create New Card" actionLabel="Update" body={body} onSubmit={(e)=>onSubmit(e)} onClose={setClose} isOpen={isOpen}/>
      );
 }
  
-export default CreateCardModal;
+export default EditCardModal;

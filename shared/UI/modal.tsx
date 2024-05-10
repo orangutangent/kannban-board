@@ -43,7 +43,7 @@ const Modal: React.FC<Props> = ({
         }}
         className="w-full  max-w-[500px] p-[20px] rounded-[8px] bg-white flex flex-col space-y-4">
             <h1 className="w-full text-[24px] font-[500] text-black ">{title}</h1>
-            <form onSubmit={onSubmit} className="flex flex-col w-full gap-4">
+            <form action="" onSubmit={onSubmit} className="flex flex-col w-full gap-4">
             <div>
                 {body}
             </div>

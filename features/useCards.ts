@@ -53,7 +53,8 @@ const useCards = create<UseCardsInterface>((set) => ({
         await axios.delete(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${id}`)
         const data = await fetchCards()
         set({ cards: data })
-    }
+    },
+
     
 }))
 
