@@ -31,10 +31,15 @@ interface UseColumnsInterface {
 }
 
 const fetchColumns = async () => {
-	const { data } = await axios.get(
+	try{
+const { data } = await axios.get(
 		'https://663baf1ffee6744a6ea2910b.mockapi.io/columns'
 	);
 	return data;
+	} catch(er){
+
+	}
+	
 };
 const useColumns = create<UseColumnsInterface>((set) => ({
 
