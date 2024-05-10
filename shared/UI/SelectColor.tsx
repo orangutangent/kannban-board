@@ -3,8 +3,8 @@ import { columnColors} from "@/features/useColumns";
 import React from "react";
 
 interface Props {
-    value: columnColors
-    onChange: (value: columnColors) => void
+    value: columnColors | string
+    onChange: (value: columnColors | string) => void
 }
 
 const SelectColor:React.FC<Props> = ({

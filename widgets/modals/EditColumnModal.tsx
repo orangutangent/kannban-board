@@ -8,7 +8,7 @@ import SelectColor from "@/shared/UI/SelectColor";
 import useEditColumnModal from "@/features/useEditColumnModal";
 
 interface IProps {
-    columnId: number
+    columnId: string
 }
 
 
