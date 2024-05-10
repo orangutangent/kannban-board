@@ -24,6 +24,7 @@ export default function Column(column: IColumn) {
 		return data.status === column.title && (
 			<Card1 color={column.color} {...data} key={index} />
 		) ;
+	}
 	
 
 	const dragStartHandler = (event: React.DragEvent<HTMLLIElement>, column: IColumn) => {
@@ -80,3 +81,4 @@ export default function Column(column: IColumn) {
 		</li>
 	);
 }
+

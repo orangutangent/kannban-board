@@ -34,8 +34,21 @@ const fetchCards = async () => {
 
 const useCards = create<UseCardsInterface>((set) => ({
 	cards: [],
+	replaceCard(index1, status1, index2, status2) {
+		set((state) => {
+			const newCards = [...state.cards];
+			if (status1 === status2) {
+				[newCards[index1], newCards[index2]] = [
+					newCards[index2],
+					newCards[index1],
+				];
+			} else {
+				newCards[index1].status = status2;
+			}
+			return { cards: newCards };
+		});
+	},
 	fetchCards: async () => {
-
 		try {
 			const data = await fetchCards();
 			set({ cards: data });
@@ -85,7 +98,6 @@ const useCards = create<UseCardsInterface>((set) => ({
 				useMessage.getState().setMessage(error.message);
 			}
 		}
-
 	},
 }));
 
