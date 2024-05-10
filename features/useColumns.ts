@@ -2,16 +2,28 @@ import axios from "axios";
 import { create } from "zustand";
 
 export interface IColumn {
-    id: string
+    id?: number
     title: string
-    color: string
+    color: columnColors
+}
+
+export enum columnColors {
+    white= '#F5F5FE',
+    purple = '#EBEBFF',
+    pink = '#F9E3FD',
+    gray = '#ECEDEF',
+    aqua = '#E7F8F8',
+    blue='#E3F3FC',
+    yellow='#FFF6E1',
+    green='#EEF8E8',
+    red='#FBE7E5',
 }
 
 interface UseColumnsInterface {
     columns: IColumn[]
     fetchColumns: () => void
     addColumn: (column: IColumn) => void
-    deleteColumn: (id: string) => void
+    deleteColumn: (id: number) => void
     updateColumn: (column: IColumn) => void
 }
 
@@ -31,8 +43,8 @@ const useColumns = create<UseColumnsInterface>((set) => ({
         const data = await fetchColumns()
         set({ columns: data })
     },
-    deleteColumn: async (id: string) => {
-        await axios.delete(`/https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${id}`)
+    deleteColumn: async (id: number) => {
+        await axios.delete(`https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${id}`)
         const data = await fetchColumns()
         set({ columns: data })
     },
