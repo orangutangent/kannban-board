@@ -3,9 +3,6 @@
 import Input from "@/shared/UI/Input";
 import Modal from "@/shared/UI/modal";
 import React from "react";
-import Textarea from "@/shared/UI/Textarea";
-import { IoAdd } from "react-icons/io5";
-import { IoClose } from "react-icons/io5";
 import useCreateColumnModal from "@/features/useCreateColumnModal";
 import useColumns, { IColumn, columnColors } from "@/features/useColumns";
 import SelectColor from "@/shared/UI/SelectColor";

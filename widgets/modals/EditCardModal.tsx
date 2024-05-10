@@ -13,8 +13,8 @@ interface IProps {
     cardId: number
 }
 
-const EditCardModal: React.FC<IProps> = ({cardId}) => {
-    const { isOpen, setClose } = useEditCardModal()
+const EditCardModal: React.FC<IProps> = () => {
+    const { isOpen, setClose, editCardId } = useEditCardModal()
     const [newCard,setNewCard] = React.useState<ICard>({
         id: cardId,
         title: "",

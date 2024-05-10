@@ -4,6 +4,7 @@ import useCards, { ICard } from '@/features/useCards';
 import useColumns from '@/features/useColumns';
 import { useEffect } from 'react';
 import Column from '../widgets/column';
+import EditCardModal from '@/widgets/modals/EditCardModal';
 
 export default function Home() {
 	const { columns, fetchColumns } = useColumns();
@@ -19,6 +20,7 @@ export default function Home() {
 					<Column {...data} key={index} />
 				))}
 			</ul>
+			<EditCardModal />
 		</main>
 	);
 }
