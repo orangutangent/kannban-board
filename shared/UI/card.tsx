@@ -11,9 +11,6 @@ interface IProps {
   tag: string[];
   color: string
 }
-interface IColor {
-  color: string
-}
 export default function Card({ color, title, description, status, tag }: IProps, ) {
 
   const [active, setActive] = useState(false);
