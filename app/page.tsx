@@ -3,6 +3,7 @@
 import useCards from '@/features/useCards';
 import useColumns from '@/features/useColumns';
 import useMessage from '@/features/useMessage';
+import CreateColumnBtn from '@/shared/UI/CreateColumnBtn';
 import MessagePP from '@/widgets/MessagePP';
 import { useEffect, useRef, useState } from 'react';
 import Column from '../widgets/column';
@@ -44,6 +45,7 @@ export default function Home() {
 
 	return (
 		<main className='w-screen h-screen relative'>
+			<CreateColumnBtn />
 			<ul className='flex m-[40px] gap-[24px]'>
 				{columns.map((data, index) => (
 					<Column {...data} key={index} />
