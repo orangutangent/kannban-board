@@ -12,9 +12,8 @@ interface IProps {
 	tag: string[];
 	color: string;
 }
-interface IColor {
-	color: string;
-}
+
+
 const Card = (card: IProps) => {
 	const { cards, replaceCard } = useCards();
 

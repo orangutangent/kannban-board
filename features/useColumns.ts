@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { create } from 'zustand';
+import useMessage from './useMessage';
 
 export interface IColumn {
 	id: string;
@@ -30,40 +31,81 @@ interface UseColumnsInterface {
 }
 
 const fetchColumns = async () => {
-	const { data } = await axios.get('https://663baf1ffee6744a6ea2910b.mockapi.io/columns');
+	const { data } = await axios.get(
+		'https://663baf1ffee6744a6ea2910b.mockapi.io/columns'
+	);
 	return data;
 };
-
 const useColumns = create<UseColumnsInterface>((set) => ({
 
 	columns: [],
 	fetchColumns: async () => {
-		const data = await fetchColumns();
-		set({ columns: data });
+		try {
+			const data = await fetchColumns();
+			set({ columns: data });
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				useMessage.getState().setMessage(error.message);
+			}
+		}
 	},
 	replaceColumn(index1, index2) {
 		set((state) => {
 			const newColumns = [...state.columns];
-			if (index1 >= 0 && index2 >= 0 && index1 < newColumns.length && index2 < newColumns.length) {
-				[newColumns[index1], newColumns[index2]] = [newColumns[index2], newColumns[index1]];
+			if (
+				index1 >= 0 &&
+				index2 >= 0 &&
+				index1 < newColumns.length &&
+				index2 < newColumns.length
+			) {
+				[newColumns[index1], newColumns[index2]] = [
+					newColumns[index2],
+					newColumns[index1],
+				];
 			}
 			return { columns: newColumns };
 		});
 	},
 	addColumn: async (column: IColumn) => {
-		await axios.post('https://663baf1ffee6744a6ea2910b.mockapi.io/columns', column);
-		const data = await fetchColumns();
-		set({ columns: data });
+		try {
+			await axios.post(
+				'https://663baf1ffee6744a6ea2910b.mockapi.io/columns',
+				column
+			);
+			const data = await fetchColumns();
+			set({ columns: data });
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				useMessage.getState().setMessage(error.message);
+			}
+		}
 	},
 	deleteColumn: async (id: string) => {
-		await axios.delete(`/https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${id}`);
-		const data = await fetchColumns();
-		set({ columns: data });
+		try {
+			await axios.delete(
+				`/https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${id}`
+			);
+			const data = await fetchColumns();
+			set({ columns: data });
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				useMessage.getState().setMessage(error.message);
+			}
+		}
 	},
 	updateColumn: async (column: IColumn) => {
-		await axios.put(`https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${column.id}`, column);
-		const data = await fetchColumns();
-		set({ columns: data });
+		try {
+			await axios.put(
+				`https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${column.id}`,
+				column
+			);
+			const data = await fetchColumns();
+			set({ columns: data });
+		} catch (error) {
+			if (axios.isAxiosError(error)) {
+				useMessage.getState().setMessage(error.message);
+			}
+		}
 	},
 }));
 
