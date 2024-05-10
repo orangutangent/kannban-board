@@ -1,10 +1,10 @@
-import axios from "axios";
-import { create } from "zustand";
+import axios from 'axios';
+import { create } from 'zustand';
 
 export interface IColumn {
-    id?: number
-    title: string
-    color: columnColors
+	id: string;
+	title: string;
+	color: string;
 }
 
 export enum columnColors {
@@ -20,40 +20,51 @@ export enum columnColors {
 }
 
 interface UseColumnsInterface {
-    columns: IColumn[]
-    fetchColumns: () => void
-    addColumn: (column: IColumn) => void
-    deleteColumn: (id: number) => void
-    updateColumn: (column: IColumn) => void
+	columns: IColumn[];
+	fetchColumns: () => void;
+	replaceColumn: (index1: number, index2: number) => void;
+	addColumn: (column: IColumn) => void;
+	deleteColumn: (id: string) => void;
+	updateColumn: (column: IColumn) => void;
+
 }
 
 const fetchColumns = async () => {
-    const { data } = await axios.get('https://663baf1ffee6744a6ea2910b.mockapi.io/columns')
-    return data
-}
+	const { data } = await axios.get('https://663baf1ffee6744a6ea2910b.mockapi.io/columns');
+	return data;
+};
 
 const useColumns = create<UseColumnsInterface>((set) => ({
-    columns: [],
-    fetchColumns: async () => {
-        const data = await fetchColumns()
-        set({ columns: data })
-    },
-    addColumn: async (column: IColumn) => {
-        await axios.post('https://663baf1ffee6744a6ea2910b.mockapi.io/columns', column)
-        const data = await fetchColumns()
-        set({ columns: data })
-    },
-    deleteColumn: async (id: number) => {
-        await axios.delete(`https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${id}`)
-        const data = await fetchColumns()
-        set({ columns: data })
-    },
-    updateColumn: async (column: IColumn) => {
-        await axios.put(`https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${column.id}`, column)
-        const data = await fetchColumns()
-        set({ columns: data })
-    },
 
-}))
+	columns: [],
+	fetchColumns: async () => {
+		const data = await fetchColumns();
+		set({ columns: data });
+	},
+	replaceColumn(index1, index2) {
+		set((state) => {
+			const newColumns = [...state.columns];
+			if (index1 >= 0 && index2 >= 0 && index1 < newColumns.length && index2 < newColumns.length) {
+				[newColumns[index1], newColumns[index2]] = [newColumns[index2], newColumns[index1]];
+			}
+			return { columns: newColumns };
+		});
+	},
+	addColumn: async (column: IColumn) => {
+		await axios.post('https://663baf1ffee6744a6ea2910b.mockapi.io/columns', column);
+		const data = await fetchColumns();
+		set({ columns: data });
+	},
+	deleteColumn: async (id: string) => {
+		await axios.delete(`/https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${id}`);
+		const data = await fetchColumns();
+		set({ columns: data });
+	},
+	updateColumn: async (column: IColumn) => {
+		await axios.put(`https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${column.id}`, column);
+		const data = await fetchColumns();
+		set({ columns: data });
+	},
+}));
 
-export default useColumns
+export default useColumns;

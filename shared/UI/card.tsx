@@ -9,11 +9,12 @@ interface IProps {
   description: string;
   status: string;
   tag: string[];
+  color: string
 }
 interface IColor {
   color: string
 }
-export default function Card({ title, description, status, tag }: IProps, {color}:IColor) {
+export default function Card({ color, title, description, status, tag }: IProps, ) {
 
   const [active, setActive] = useState(false);
   return (
@@ -40,7 +41,7 @@ export default function Card({ title, description, status, tag }: IProps, {color
       <p className="font-normal text-xs font-sans text-[#6C6C6C] box-border ">
         {description} 
       </p> 
-      <Status color={color}
+      <Status title={status} color={color}
       />
 
       <ul className="flex flex-row gap-[4px] flex-wrap">
