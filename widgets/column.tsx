@@ -10,6 +10,7 @@ import edit from '../public/icons/edit.svg';
 import plus from '../public/icons/plus.svg';
 import Modal from '@/shared/UI/modal';
 
+
 export default function Column(column: IColumn) {
 	const [isHovered, setIsHovered] = useState(false);
 	const [modalEdit, setModalEdit] = useState(false);
@@ -76,4 +77,5 @@ export default function Column(column: IColumn) {
 			</ul>
 		</li>
 	);
+
 }
