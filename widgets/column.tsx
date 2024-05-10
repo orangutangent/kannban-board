@@ -10,7 +10,6 @@ import edit from '../public/icons/edit.svg';
 import plus from '../public/icons/plus.svg';
 import Modal from '@/shared/UI/modal';
 
-
 export default function Column(column: IColumn) {
 	const [isHovered, setIsHovered] = useState(false);
 	const [modalEdit, setModalEdit] = useState(false);
@@ -24,32 +23,35 @@ export default function Column(column: IColumn) {
 	}, []);
 
 	const CardMap = (data: ICard, index: number) => {
-		return data.status === column.title ? <Card1 {...data} key={index} /> : <></>;
-	};
-
-	const dragOverHandler = (event: React.DragEvent<HTMLLIElement>) => {
-		event.preventDefault();
-		const parent = event.currentTarget as HTMLElement;
-		parent.style.boxShadow = '4px 4px 4px gray';
-	};
-
-	const dragLeaveHandler = (event: React.DragEvent<HTMLLIElement>) => {
-		const parent = event.currentTarget as HTMLElement;
-		parent.style.boxShadow = 'none';
+		return data.status === column.title ? <Card1 {...data} color={column.color} key={index} /> : <></>;
 	};
 
 	const dragStartHandler = (event: React.DragEvent<HTMLLIElement>, column: IColumn) => {
-		const columnIndex = columns.findIndex((col) => col.id === column.id);
-		event.dataTransfer.setData('text/plain', columnIndex.toString());
+		if (event.target === event.currentTarget) {
+			const columnIndex = columns.findIndex((col) => col.id === column.id);
+			event.dataTransfer.setData('text/plain', JSON.stringify({ type: 'column', index: columnIndex }));
+		}
 	};
 
 	const dropHandler = (event: React.DragEvent<HTMLLIElement>, column: IColumn) => {
 		event.preventDefault();
-		const parent = event.currentTarget as HTMLElement;
-		parent.style.boxShadow = 'none';
-		const draggedColumnIndex = Number(event.dataTransfer.getData('text/plain'));
-		const columnIndex2 = columns.findIndex((col) => col.id === column.id);
-		replaceColumn(draggedColumnIndex, columnIndex2);
+		event.currentTarget.style.boxShadow = 'none';
+		const draggedItem = JSON.parse(event.dataTransfer.getData('text/plain'));
+		if (draggedItem.type === 'column') {
+			const columnIndex2 = columns.findIndex((col) => col.id === column.id);
+			replaceColumn(draggedItem.index, columnIndex2);
+		}
+	};
+
+	const dragOverHandler = (event: React.DragEvent<HTMLLIElement>) => {
+		event.preventDefault();
+		if (!event.dataTransfer.types.includes('text/plain')) {
+			event.currentTarget.style.boxShadow = '4px 4px 4px gray';
+		}
+	};
+
+	const dragLeaveHandler = (event: React.DragEvent<HTMLLIElement>) => {
+		event.currentTarget.style.boxShadow = 'none';
 	};
 
 	return (
@@ -77,5 +79,4 @@ export default function Column(column: IColumn) {
 			</ul>
 		</li>
 	);
-
 }
