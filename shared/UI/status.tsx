@@ -14,13 +14,14 @@ interface IProps{
       
     }
     return (
-      <div style={colorElem} className="w-max flex flex-row items-center justify-center rounded-full   pt-0.5 pb-0.5 pr-1 pl-1 gap-[4px]">
-        <span  className="w-[8px] h-[8px] rounded-full bg-[#BBBFC4] m-0"></span>
-        <p className=" font-medium text-sm  text-center  text-black">
-          {title}
-        </p>
-      </div>
-    );
+			<div
+				style={colorElemPoint}
+				className='w-max flex flex-row items-center justify-center rounded-full   pt-0.5 pb-0.5 pr-1 pl-1 gap-[4px]'
+			>
+				<span className='w-[8px] h-[8px] rounded-full  m-0 bg-[#60616A]'></span>
+				<p className=' font-medium text-sm  text-center  text-black'>{title}</p>
+			</div>
+		);
   }
 
 
