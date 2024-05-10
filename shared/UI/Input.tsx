@@ -4,6 +4,7 @@ interface IProps {
     onChange?: (e:any) => void
     value?:string
     name?:string
+    onKeyDown?: (e:any) => void
 }
 
 
@@ -11,11 +12,13 @@ const Input:React.FC<IProps> = ({
     placeholder,
     onChange,
     value,
-    name
+    name,
+    onKeyDown
 }) => {
     return ( 
         <input
             placeholder={placeholder}
+            onKeyDown={onKeyDown}
             onChange={onChange}
             value={value}
             name={name}

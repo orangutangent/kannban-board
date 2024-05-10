@@ -2,6 +2,7 @@ import axios from 'axios';
 import { create } from 'zustand';
 import useMessage from './useMessage';
 
+
 export interface ICard {
 	id?: number;
 	title: string;
@@ -13,6 +14,8 @@ export interface ICard {
 interface UseCardsInterface {
 	cards: ICard[];
 	fetchCards: () => void;
+	replaceCard: (index1: number, status1: string, index2: number, status2: string) => void;
+
 	addCard: (card: ICard) => void;
 	updateCard: (card: ICard) => void;
 	deleteCard: (id: number) => void;
@@ -25,12 +28,14 @@ const fetchCards = async () => {
 		);
 		return data;
 	} catch (error) {
+
 	}
 };
 
 const useCards = create<UseCardsInterface>((set) => ({
 	cards: [],
 	fetchCards: async () => {
+
 		try {
 			const data = await fetchCards();
 			set({ cards: data });
@@ -80,6 +85,7 @@ const useCards = create<UseCardsInterface>((set) => ({
 				useMessage.getState().setMessage(error.message);
 			}
 		}
+
 	},
 }));
 

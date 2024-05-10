@@ -8,6 +8,18 @@ export interface IColumn {
 	color: string;
 }
 
+export enum columnColors {
+    white= '#F5F5FE',
+    purple = '#EBEBFF',
+    pink = '#F9E3FD',
+    gray = '#ECEDEF',
+    aqua = '#E7F8F8',
+    blue='#E3F3FC',
+    yellow='#FFF6E1',
+    green='#EEF8E8',
+    red='#FBE7E5',
+}
+
 interface UseColumnsInterface {
 	columns: IColumn[];
 	fetchColumns: () => void;
@@ -15,6 +27,7 @@ interface UseColumnsInterface {
 	addColumn: (column: IColumn) => void;
 	deleteColumn: (id: string) => void;
 	updateColumn: (column: IColumn) => void;
+
 }
 
 const fetchColumns = async () => {
@@ -24,6 +37,7 @@ const fetchColumns = async () => {
 	return data;
 };
 const useColumns = create<UseColumnsInterface>((set) => ({
+
 	columns: [],
 	fetchColumns: async () => {
 		try {
