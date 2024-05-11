@@ -11,17 +11,16 @@ import useEditCardModal from "@/features/useEditCardModal";
 import EditCardModal from "@/widgets/modals/EditCardModal";
 import EditColumnModal from "@/widgets/modals/EditColumnModal";
 import useEditColumnModal from "@/features/useEditColumnModal";
+import ConfirmModal from "@/widgets/modals/ConfirmModal";
 
 
 const TestPage = () => {
     const {  setOpen } = useCreateCardModal()
     const { setOpen: setCreateColumnModalOpen } = useCreateColumnModal()
-    const {setOpen: setEditCardModalOpen} = useEditCardModal()
-    const {setOpen: setEditColumnModalOpen} = useEditColumnModal()
+    const {setOpen: setEditCardModalOpen, setEditCardId} = useEditCardModal()
+    const {setOpen: setEditColumnModalOpen, setEditColumnId} = useEditColumnModal()
     const { cards, fetchCards,deleteCard } = useCards()
     const { columns, fetchColumns, deleteColumn } = useColumns()
-    const [editCardId, setEditCardId] = React.useState<number>()
-    const [editColumnId, setEditColumnId] = React.useState<number>()
     React.useEffect(() => {
         fetchCards()
         fetchColumns()
@@ -35,9 +34,9 @@ const TestPage = () => {
                 setCreateColumnModalOpen()
                 }}/>
             </div>
-            { editColumnId && <EditColumnModal columnId={editColumnId} />  }
-            { editCardId && <EditCardModal cardId={editCardId} />  }
-            <CreateCardModal columnTitle="test"  />
+            { <EditColumnModal  />  }
+            { <EditCardModal />  }
+            <CreateCardModal  />
             <CreateColumnModal />
             <div className="w-full flex gap-4 flex-wrap px-[24px]">
                 {cards && cards.map((card) => (
@@ -48,6 +47,7 @@ const TestPage = () => {
                         <p>{card.status}</p>
                         <Button buttonType={ButtonTypes.SECONDARY} label="Delete" onClick={() => { card.id && deleteCard(card.id)}}/>
                         <Button buttonType={ButtonTypes.SECONDARY} label="Edit" onClick={() => { 
+                            card.id && setEditCardId(card.id)
                             card.id && setEditCardId(card.id)
                             setEditCardModalOpen()
                             }}/>
@@ -63,6 +63,7 @@ const TestPage = () => {
                         <h1>{column.title}</h1>
                         <Button buttonType={ButtonTypes.SECONDARY} label="Delete" onClick={() => { column.id && deleteColumn(column.id)}}/>
                         <Button buttonType={ButtonTypes.SECONDARY} label="Edit" onClick={() => {
+                            column.id && setEditColumnId(column.id)
                             column.id && setEditColumnId(column.id)
                             setEditColumnModalOpen()
                         }} />

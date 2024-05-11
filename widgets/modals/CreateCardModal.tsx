@@ -8,12 +8,10 @@ import Textarea from "@/shared/UI/Textarea";
 import { IoAdd } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 
-interface IProps {
-    columnTitle: string
-}
 
-const CreateCardModal: React.FC<IProps> = ({columnTitle}) => {
-    const { isOpen, setClose } = useCreateCardModal()
+
+const CreateCardModal  = () => {
+    const { isOpen, setClose,status:columnTitle } = useCreateCardModal()
     const { addCard } = useCards()
     const [card,setCard] = React.useState<ICard>({
         title: "",
@@ -72,8 +70,14 @@ const CreateCardModal: React.FC<IProps> = ({columnTitle}) => {
 
     const onSubmit = (e: any) => {
         e.preventDefault()
-        console.log(card)
         addCard({...card, status: columnTitle})
+        setClose()
+        setCard({
+            title: "",
+            description: "",
+            status: "todo",
+            tag: [],
+        })
     }
     return ( 
         <Modal title="Create New Card" actionLabel="Create" body={body} onSubmit={(e)=>onSubmit(e)} onClose={setClose} isOpen={isOpen}/>
