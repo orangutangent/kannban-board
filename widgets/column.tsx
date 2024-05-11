@@ -17,10 +17,10 @@ import useConfirmModal from '@/features/useConfirmModal';
 export default function Column(column: IColumn) {
 	const [isHovered, setIsHovered] = useState(false);
 
-  const {setOpen:setConfirmModalOpen,setTitle,setText, setActionLabel, setOnConfirmFunc} = useConfirmModal();
-	const {setEditColumnId, setOpen: setEditColumnModalOpen} = useEditColumnModal();
-	const { setOpen: setCreateCardModalOpen,setStatus } = useCreateCardModal();
-	const { cards, addCardInEmptyColumn,deleteCard } = useCards();
+	const { setOpen: setConfirmModalOpen, setTitle, setText, setActionLabel, setOnConfirmFunc } = useConfirmModal();
+	const { setEditColumnId, setOpen: setEditColumnModalOpen } = useEditColumnModal();
+	const { setOpen: setCreateCardModalOpen, setStatus } = useCreateCardModal();
+	const { cards, addCardInEmptyColumn, deleteCard } = useCards();
 	const { columns, replaceColumn, deleteColumn } = useColumns();
 
 	const CardMap = (data: ICard, index: number) => {
@@ -74,9 +74,7 @@ export default function Column(column: IColumn) {
 		setText('This action cannot be undone.');
 		setActionLabel('Delete');
 		setOnConfirmFunc(() => {
-			const cardsToDelete = cards.filter(
-				(card) => card.status === column.title
-			);
+			const cardsToDelete = cards.filter((card) => card.status === column.title);
 			cardsToDelete.forEach((card) => {
 				card.id && deleteCard(card.id);
 			});
@@ -84,7 +82,6 @@ export default function Column(column: IColumn) {
 		});
 		setConfirmModalOpen();
 	};
-
 
 	return (
 		<li
@@ -106,24 +103,10 @@ export default function Column(column: IColumn) {
 						alt='trashcan'
 						width={16}
 						className='cursor-pointer'
-						onClick={(e)=>deleteColumnHandler(e)}
+						onClick={(e) => deleteColumnHandler(e)}
 					></Image>
-					<Image
-						priority
-						src={edit}
-						alt='edit'
-						width={16}
-						className='cursor-pointer'
-						onClick={editColumnHandler}
-					></Image>
-					<Image
-						priority
-						src={plus}
-						alt='plus'
-						width={16}
-						className='cursor-pointer'
-						onClick={createCardHandler}
-					></Image>
+					<Image priority src={edit} alt='edit' width={16} className='cursor-pointer' onClick={editColumnHandler}></Image>
+					<Image priority src={plus} alt='plus' width={16} className='cursor-pointer' onClick={createCardHandler}></Image>
 				</div>
 			)}
 			<ul className='border-[#D6D8DB] border p-[24px] rounded flex flex-col gap-[24px]' style={{ backgroundColor: column.color }}>

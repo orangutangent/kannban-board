@@ -24,9 +24,9 @@ interface IColor {
 }
 
 const Card = (card: IProps) => {
-	const {setOpen:setConfirmModalOpen,setTitle,setText, setActionLabel, setOnConfirmFunc} = useConfirmModal();
+	const { setOpen: setConfirmModalOpen, setTitle, setText, setActionLabel, setOnConfirmFunc } = useConfirmModal();
 	const { setEditCardId, setOpen: setEditCardModalOpen } = useEditCardModal();
-	const { cards,deleteCard, replaceCard } = useCards();
+	const { cards, deleteCard, replaceCard } = useCards();
 
 	const dragStartHandler = (event: React.DragEvent<HTMLLIElement>, card: IProps) => {
 		if (event.target === event.currentTarget) {
@@ -64,17 +64,17 @@ const Card = (card: IProps) => {
 		setEditCardModalOpen();
 	};
 
-	const deleteHandler = (e:any)=>{
+	const deleteHandler = (e: any) => {
 		e.stopPropagation();
 		setTitle('Delete Card');
 		setText('Are you sure you want to delete this card?');
 		setActionLabel('Delete');
-		setOnConfirmFunc(()=>{
+		setOnConfirmFunc(() => {
 			card.id && deleteCard(card.id);
 		});
 		setConfirmModalOpen();
-	}
-	
+	};
+
 	return (
 		<li
 			className='p-4  w-full box-border list-none font-sans bg-white rounded shadow-md flex flex-col gap-[8px] relative transition-all cursor-pointer'
@@ -87,13 +87,12 @@ const Card = (card: IProps) => {
 			onDrop={(e) => dropHandler(e, card)}
 		>
 			<h3 className='text-ellipsis overflow-hidden font-medium text-sm text-black'>{card.title}</h3>
-			<Image priority src={trashcan} alt='trashcan' width={10} className={active ? 'absolute right-[20px] top-[8px] ' : 'hidden'}></Image>
 			<Image
 				priority
 				src={trashcan}
 				alt='trashcan'
-				width={10}
-				className={active ? 'absolute right-[20px] top-[8px] ' : 'hidden'}
+				width={14}
+				className={active ? 'absolute right-[26px] top-[8px] ' : 'hidden'}
 				onClick={deleteHandler}
 			></Image>
 			<Image
@@ -101,12 +100,10 @@ const Card = (card: IProps) => {
 				onClick={handleEdit}
 				src={edit}
 				alt='edit'
-				width={10}
+				width={14}
 				className={active ? 'absolute right-[8px] top-[8px] ' : 'hidden'}
 			></Image>
-			<p className='font-normal text-xs font-sans text-[#6C6C6C] box-border '>
-				{card.description}
-			</p>
+			<p className='font-normal text-xs font-sans text-[#6C6C6C] box-border '>{card.description}</p>
 			<Status title={card.status} color={card.color} />
 
 			<ul className='flex flex-row gap-[4px] flex-wrap'>
