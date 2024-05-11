@@ -37,6 +37,7 @@ const useCards = create<UseCardsInterface>((set) => ({
 				[newCards[index1], newCards[index2]] = [newCards[index2], newCards[index1]];
 			} else {
 				newCards[index1].status = status2;
+				useCards.getState().updateCard(newCards[index1]);
 			}
 			return { cards: newCards };
 		});
@@ -45,6 +46,7 @@ const useCards = create<UseCardsInterface>((set) => ({
 		set((state) => {
 			const newCards = [...state.cards];
 			newCards[index].status = status;
+			useCards.getState().updateCard(newCards[index]);
 			return { cards: newCards };
 		});
 	},
