@@ -1,6 +1,6 @@
 'use client';
 
-import {  useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import Image from 'next/image';
 
@@ -14,13 +14,12 @@ import useEditColumnModal from '@/features/useEditColumnModal';
 import useCreateCardModal from '@/features/useCreateCardModal';
 import useConfirmModal from '@/features/useConfirmModal';
 
-
 export default function Column(column: IColumn) {
-	const {setOpen:setConfirmModalOpen,setTitle,setText, setActionLabel, setOnConfirmFunc} = useConfirmModal();
-	const {setEditColumnId, setOpen: setEditColumnModalOpen} = useEditColumnModal();
-	const { setOpen: setCreateCardModalOpen,setStatus } = useCreateCardModal();
 	const [isHovered, setIsHovered] = useState(false);
 
+  const {setOpen:setConfirmModalOpen,setTitle,setText, setActionLabel, setOnConfirmFunc} = useConfirmModal();
+	const {setEditColumnId, setOpen: setEditColumnModalOpen} = useEditColumnModal();
+	const { setOpen: setCreateCardModalOpen,setStatus } = useCreateCardModal();
 	const { cards, addCardInEmptyColumn,deleteCard } = useCards();
 	const { columns, replaceColumn, deleteColumn } = useColumns();
 
@@ -62,12 +61,12 @@ export default function Column(column: IColumn) {
 	const editColumnHandler = () => {
 		setEditColumnId(column.id);
 		setEditColumnModalOpen();
-	}
+	};
 
 	const createCardHandler = () => {
 		setStatus(column.title);
 		setCreateCardModalOpen();
-	}
+	};
 
 	const deleteColumnHandler = (e: any) => {
 		e.preventDefault();
@@ -98,11 +97,9 @@ export default function Column(column: IColumn) {
 			onDragStart={(e) => dragStartHandler(e, column)}
 			onDrop={(e) => dropHandler(e, column)}
 		>
-			<h2 className='text-2xl font-bold mb-[12px] lg:text-xl md:text-base '>{column.title}</h2>
+			<h2 className='text-ellipsis overflow-hidden w-4/6 text-2xl font-bold mb-[12px] lg:text-xl md:text-base '>{column.title}</h2>
 			{isHovered && (
 				<div className='flex gap-[8px] absolute right-[6px] top-[6px]'>
-
-
 					<Image
 						priority
 						src={trashcan}
@@ -127,7 +124,6 @@ export default function Column(column: IColumn) {
 						className='cursor-pointer'
 						onClick={createCardHandler}
 					></Image>
-
 				</div>
 			)}
 			<ul className='border-[#D6D8DB] border p-[24px] rounded flex flex-col gap-[24px]' style={{ backgroundColor: column.color }}>

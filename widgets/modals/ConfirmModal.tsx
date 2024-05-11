@@ -4,12 +4,16 @@ import Modal from "@/shared/UI/modal"
 import { useCallback } from "react"
 
 interface IProps {
-    text?: string
-    title?: string
-    actionLabel?: string
-    onConfirm: () => void
+	text?: string;
+	title?: string;
+	actionLabel?: string;
+	onConfirm: () => void;
 }
 
+const ConfirmModal: React.FC<IProps> = ({ text, title, actionLabel, onConfirm }) => {
+	const { isOpen, setClose } = useConfirmModal();
+	return <Modal title={title} actionLabel={actionLabel || 'Confirm'} body={text} onSubmit={onConfirm} onClose={setClose} isOpen={isOpen} />;
+};
 
 const ConfirmModal = () => {
 	const { isOpen, setClose, title, actionLabel, text, onConfirmFunc } =

@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface IConfirmModal {
     isOpen: boolean
@@ -28,4 +28,4 @@ interface IConfirmModal {
     setClose: () => set({isOpen:false})
 }))
 
-export default useConfirmModal
+export default useConfirmModal;
