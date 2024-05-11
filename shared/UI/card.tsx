@@ -3,6 +3,8 @@ import { useState } from 'react';
 import Status from './status';
 import Tag from './tag';
 import useCards from '@/features/useCards';
+import useEditCardModal from '@/features/useEditCardModal';
+import useCreateCardModal from '@/features/useCreateCardModal';
 
 interface IProps {
 	id?: number;
@@ -16,6 +18,7 @@ interface IColor {
 	color: string;
 }
 const Card = (card: IProps) => {
+	const { setEditCardId, setOpen: setEditCardModalOpen } = useEditCardModal();
 	const { cards, replaceCard } = useCards();
 
 	const dragStartHandler = (event: React.DragEvent<HTMLLIElement>, card: IProps) => {
@@ -46,6 +49,13 @@ const Card = (card: IProps) => {
 	};
 
 	const [active, setActive] = useState(false);
+
+	const handleEdit = () => {
+		if (!card.id) return;
+		setEditCardId(card.id);
+		setEditCardModalOpen();
+	};
+	
 	return (
 		<li
 			className='p-2 w-full box-border list-none font-sans bg-white rounded shadow-md flex flex-col gap-[8px] relative transition-all cursor-pointer'
@@ -59,6 +69,7 @@ const Card = (card: IProps) => {
 		>
 			<h3 className='font-medium text-sm text-black'>{card.title}</h3>
 			<svg
+				onClick={handleEdit}
 				className={active ? 'absolute right-[8px] top-[8px] ' : 'hidden'}
 				width='10'
 				height='10'

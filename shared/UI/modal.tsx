@@ -22,7 +22,7 @@ const Modal: React.FC<Props> = ({ title, body, onClose, onSubmit, actionLabel, i
 					onClick={(e) => {
 						onClose();
 					}}
-					className='fixed p-[20px] top-0 left-0 w-full h-full flex items-center justify-center bg-black/50'
+					className='fixed z-50 p-[20px] top-0 left-0 w-full h-full flex items-center justify-center bg-black/50'
 				>
 					<motion.div
 						initial={{ opacity: 0, scale: 0.5 }}

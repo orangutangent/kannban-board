@@ -9,12 +9,9 @@ import { IoClose } from "react-icons/io5";
 import useEditCardModal from "@/features/useEditCardModal";
 import axios from "axios";
 
-interface IProps {
-    cardId: number
-}
 
-const EditCardModal: React.FC<IProps> = ({cardId}) => {
-    const { isOpen, setClose } = useEditCardModal()
+const EditCardModal = () => {
+    const { isOpen, setClose,editCardId:cardId } = useEditCardModal()
     const [newCard,setNewCard] = React.useState<ICard>({
         id: cardId,
         title: "",
@@ -24,9 +21,9 @@ const EditCardModal: React.FC<IProps> = ({cardId}) => {
     }as ICard)
     const { updateCard } = useCards()
     React.useEffect(() => {
+        if(!isOpen || !cardId) return
         const getCard = async () => {
-            
-            const { data } = await axios.get(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${cardId}`)
+            const { data } = await axios.get(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${cardId.toString()}`)
             return data
         }
         getCard().then((data) => setNewCard(data))
@@ -85,9 +82,10 @@ const EditCardModal: React.FC<IProps> = ({cardId}) => {
         e.preventDefault()
         updateCard(newCard)
         setClose()
+        setNewCard({title: "", description: "", status: "", tag: []})
     }
     return ( 
-        <Modal title="Create New Card" actionLabel="Update" body={body} onSubmit={(e)=>onSubmit(e)} onClose={setClose} isOpen={isOpen}/>
+        <Modal title="Edit Card" actionLabel="Update" body={body} onSubmit={(e)=>onSubmit(e)} onClose={setClose} isOpen={isOpen}/>
      );
 }
  

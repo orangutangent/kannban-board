@@ -33,8 +33,8 @@ const CreateCardModal = () => {
 
     const onSubmit = (e: any) => {
         e.preventDefault()
-        console.log(column)
         addColumn({...column})
+        setClose()
     }
     return ( 
         <Modal title="Create New Card" actionLabel="Create" body={body} onSubmit={(e)=>onSubmit(e)} onClose={setClose} isOpen={isOpen}/>
