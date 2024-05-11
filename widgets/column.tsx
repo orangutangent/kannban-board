@@ -1,31 +1,36 @@
 'use client';
 
 import {  useEffect, useState } from 'react';
+
 import Image from 'next/image';
 
 import useCards, { ICard } from '@/features/useCards';
 import useColumns, { IColumn } from '@/features/useColumns';
+import trashcan from '@/public/icons/trashcan.svg';
 import Card1 from '@/shared/UI/card';
 import edit from '../public/icons/edit.svg';
 import plus from '../public/icons/plus.svg';
 import useEditColumnModal from '@/features/useEditColumnModal';
 import useCreateCardModal from '@/features/useCreateCardModal';
 
+
 export default function Column(column: IColumn) {
 	const {setEditColumnId, setOpen: setEditColumnModalOpen} = useEditColumnModal();
 	const { setOpen: setCreateCardModalOpen,setStatus } = useCreateCardModal();
 	const [isHovered, setIsHovered] = useState(false);
 
-	const { cards, fetchCards } = useCards();
+	const { cards } = useCards();
 	const { columns, replaceColumn } = useColumns();
 
-	useEffect(() => {
-		fetchCards();
-	}, []);
+	
 
-	const CardMap = (data: ICard, index: number) => {
-		return data.status === column.title ? <Card1 {...data} color={column.color} key={index} /> : <></>;
-	};
+
+	const CardMap = (data: ICard, index:number) => {
+		return data.status === column.title && (
+			<Card1 color={column.color} {...data} key={index} />
+		) ;
+	}
+	
 
 	const dragStartHandler = (event: React.DragEvent<HTMLLIElement>, column: IColumn) => {
 		if (event.target === event.currentTarget) {
@@ -67,7 +72,7 @@ export default function Column(column: IColumn) {
 
 	return (
 		<li
-			className='custom-column relative list-none w-[256px] bg-none'
+			className='custom-column relative list-none w-[256px] bg-none z-0 min-w-[220px] sm:min-w-[240px]'
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			draggable={true}
@@ -76,16 +81,46 @@ export default function Column(column: IColumn) {
 			onDragStart={(e) => dragStartHandler(e, column)}
 			onDrop={(e) => dropHandler(e, column)}
 		>
-			<h2 className='text-2xl font-bold mb-[12px]'>{column.title}</h2>
+			<h2 className='text-2xl font-bold mb-[12px] lg:text-xl md:text-base '>
+				{column.title}
+			</h2>
 			{isHovered && (
 				<div className='flex gap-[8px] absolute right-[6px] top-[6px]'>
-					<Image src={edit} alt='edit' width={16} className='cursor-pointer' onClick={editColumnHandler}></Image>
-					<Image src={plus} alt='plus' width={16} className='cursor-pointer' onClick={createCardHandler}></Image>
+
+					<Image
+						priority
+						src={trashcan}
+						alt='trashcan'
+						width={16}
+						className='cursor-pointer'
+					></Image>
+					<Image
+						priority
+						src={edit}
+						alt='edit'
+						width={16}
+						className='cursor-pointer'
+						onClick={editColumnHandler}
+					></Image>
+					<Image
+						priority
+						src={plus}
+						alt='plus'
+						width={16}
+						className='cursor-pointer'
+						onClick={createCardHandler}
+					></Image>
 				</div>
 			)}
-			<ul className='border-[#D6D8DB] border p-[24px] rounded flex flex-col gap-[24px]' style={{ backgroundColor: column.color }}>
+			{/* {modalEdit && <Modal isOpen={} />} */}
+			{/* {modalAddColumn && <Modal />} */}
+			<ul
+				className='border-[#D6D8DB] border p-[24px] rounded flex flex-col gap-[24px]'
+				style={{ backgroundColor: column.color }}
+			>
 				{cards.map(CardMap)}
 			</ul>
 		</li>
 	);
 }
+
