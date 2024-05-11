@@ -5,6 +5,7 @@ import EditCardModal from "@/widgets/modals/EditCardModal";
 import EditColumnModal from "@/widgets/modals/EditColumnModal";
 import CreateCardModal from "@/widgets/modals/CreateCardModal";
 import CreateColumnModal from "@/widgets/modals/CreateColumnModal";
+import ConfirmModal from "@/widgets/modals/ConfirmModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         <CreateColumnModal />
         <EditCardModal />
         <EditColumnModal />
+        <ConfirmModal />
         {children}</body>
     </html>
   );

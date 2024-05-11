@@ -7,7 +7,6 @@ import CreateColumnBtn from '@/shared/UI/CreateColumnBtn';
 import MessagePP from '@/widgets/MessagePP';
 import { useEffect, useRef, useState } from 'react';
 import Column from '../widgets/column';
-import EditCardModal from '@/widgets/modals/EditCardModal';
 
 export default function Home() {
 	const { columns, fetchColumns } = useColumns();
