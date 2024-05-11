@@ -39,7 +39,7 @@ const Modal: React.FC<Props> = ({ title, body, onClose, onSubmit, actionLabel, i
 							<div>{body}</div>
 							<div className='flex gap-4'>
 								<Button label={actionLabel} type='submit' onClick={onSubmit} buttonType={ButtonTypes.PRIMARY} />
-								<Button label='Cancel' onClick={onClose} buttonType={ButtonTypes.SECONDARY} />
+								<Button label='Cancel' type="button" onClick={onClose} buttonType={ButtonTypes.SECONDARY} />
 							</div>
 						</form>
 					</motion.div>
