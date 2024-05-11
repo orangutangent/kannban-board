@@ -2,7 +2,6 @@ import axios from 'axios';
 import { create } from 'zustand';
 import useMessage from './useMessage';
 
-
 export interface ICard {
 	id?: number;
 	title: string;
@@ -15,7 +14,7 @@ interface UseCardsInterface {
 	cards: ICard[];
 	fetchCards: () => void;
 	replaceCard: (index1: number, status1: string, index2: number, status2: string) => void;
-
+	addCardInEmptyColumn: (index: number, status: string) => void;
 	addCard: (card: ICard) => void;
 	updateCard: (card: ICard) => void;
 	deleteCard: (id: number) => void;
@@ -23,13 +22,9 @@ interface UseCardsInterface {
 
 const fetchCards = async () => {
 	try {
-		const { data } = await axios.get(
-			'https://663baf1ffee6744a6ea2910b.mockapi.io/cards'
-		);
+		const { data } = await axios.get('https://663baf1ffee6744a6ea2910b.mockapi.io/cards');
 		return data;
-	} catch (error) {
-
-	}
+	} catch (error) {}
 };
 
 const useCards = create<UseCardsInterface>((set) => ({
@@ -37,14 +32,19 @@ const useCards = create<UseCardsInterface>((set) => ({
 	replaceCard(index1, status1, index2, status2) {
 		set((state) => {
 			const newCards = [...state.cards];
+			// console.log(index1, status1, index2, status2);
 			if (status1 === status2) {
-				[newCards[index1], newCards[index2]] = [
-					newCards[index2],
-					newCards[index1],
-				];
+				[newCards[index1], newCards[index2]] = [newCards[index2], newCards[index1]];
 			} else {
 				newCards[index1].status = status2;
 			}
+			return { cards: newCards };
+		});
+	},
+	addCardInEmptyColumn(index, status) {
+		set((state) => {
+			const newCards = [...state.cards];
+			newCards[index].status = status;
 			return { cards: newCards };
 		});
 	},
@@ -60,10 +60,7 @@ const useCards = create<UseCardsInterface>((set) => ({
 	},
 	addCard: async (card: ICard) => {
 		try {
-			await axios.post(
-				'https://663baf1ffee6744a6ea2910b.mockapi.io/cards',
-				card
-			);
+			await axios.post('https://663baf1ffee6744a6ea2910b.mockapi.io/cards', card);
 			const data = await fetchCards();
 			set({ cards: data });
 		} catch (error) {
@@ -74,10 +71,7 @@ const useCards = create<UseCardsInterface>((set) => ({
 	},
 	updateCard: async (card: ICard) => {
 		try {
-			await axios.put(
-				`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${card.id}`,
-				card
-			);
+			await axios.put(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${card.id}`, card);
 			const data = await fetchCards();
 			set({ cards: data });
 		} catch (error) {
@@ -88,9 +82,7 @@ const useCards = create<UseCardsInterface>((set) => ({
 	},
 	deleteCard: async (id: number) => {
 		try {
-			await axios.delete(
-				`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${id}`
-			);
+			await axios.delete(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${id}`);
 			const data = await fetchCards();
 			set({ cards: data });
 		} catch (error) {

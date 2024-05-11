@@ -16,14 +16,13 @@ interface IProps {
 	color: string;
 }
 
-
 const Card = (card: IProps) => {
 	const { cards, replaceCard } = useCards();
 
 	const dragStartHandler = (event: React.DragEvent<HTMLLIElement>, card: IProps) => {
 		if (event.target === event.currentTarget) {
 			const cardIndex = cards.findIndex((col) => col.id === card.id);
-			event.dataTransfer.setData('text/plain', JSON.stringify(cardIndex));
+			event.dataTransfer.setData('text/plain', JSON.stringify({ type: 'card', index: cardIndex }));
 		}
 	};
 
@@ -31,16 +30,17 @@ const Card = (card: IProps) => {
 		event.preventDefault();
 		event.currentTarget.style.boxShadow = 'none';
 
-		const draggedItemIndex = Number(event.dataTransfer.getData('text/plain'));
-		const cardIndex = cards.findIndex((col) => col.id === card.id);
-		const statusDragged = cards[draggedItemIndex].status;
+		const draggedItemIndex = JSON.parse(event.dataTransfer.getData('text/plain'));
+		const cardIndex = cards.findIndex((item) => item.id === card.id);
+		const statusDragged = cards[draggedItemIndex.index].status;
 		const status = cards[cardIndex].status;
-		replaceCard(draggedItemIndex, statusDragged, cardIndex, status);
+
+		replaceCard(draggedItemIndex.index, statusDragged, cardIndex, status);
 	};
 
 	const dragOverHandler = (event: React.DragEvent<HTMLLIElement>) => {
 		event.preventDefault();
-		event.currentTarget.style.boxShadow = '4px 4px 4px gray';
+		event.currentTarget.style.boxShadow = '4px 4px 0px gray';
 	};
 
 	const dragLeaveHandler = (event: React.DragEvent<HTMLLIElement>) => {
@@ -60,22 +60,10 @@ const Card = (card: IProps) => {
 			onDrop={(e) => dropHandler(e, card)}
 		>
 			<h3 className='font-medium text-sm text-black'>{card.title}</h3>
-			<Image
-				src={trashcan}
-				alt='trashcan'
-				width={10}
-				className={active ? 'absolute right-[20px] top-[8px] ' : 'hidden'}
-			></Image>
-			<Image
-				src={edit}
-				alt='edit'
-				width={10}
-				className={active ? 'absolute right-[8px] top-[8px] ' : 'hidden'}
-			></Image>
+			<Image src={trashcan} alt='trashcan' width={10} className={active ? 'absolute right-[20px] top-[8px] ' : 'hidden'}></Image>
+			<Image src={edit} alt='edit' width={10} className={active ? 'absolute right-[8px] top-[8px] ' : 'hidden'}></Image>
 
-			<p className='font-normal text-xs font-sans text-[#6C6C6C] box-border '>
-				{card.description}
-			</p>
+			<p className='font-normal text-xs font-sans text-[#6C6C6C] box-border '>{card.description}</p>
 			<Status title={card.status} color={card.color} />
 
 			<ul className='flex flex-row gap-[4px] flex-wrap'>
