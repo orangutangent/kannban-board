@@ -4,7 +4,6 @@ import useMessage from './useMessage';
 
 
 export interface ICard {
-<<<<<<< Updated upstream
 	id?: number;
 	title: string;
 	description: string;
@@ -20,21 +19,7 @@ interface UseCardsInterface {
 	addCard: (card: ICard) => void;
 	updateCard: (card: ICard) => void;
 	deleteCard: (id: number) => void;
-=======
-    id?: string
-    title: string
-    description: string
-    status: string
-    tag: string[]
-}
 
-interface UseCardsInterface {
-    cards: ICard[]
-    fetchCards: () => void
-    addCard: (card: ICard) => void
-    updateCard: (card: ICard) => void
-    deleteCard: (id: string) => void
->>>>>>> Stashed changes
 }
 
 const fetchCards = async () => {
@@ -49,7 +34,6 @@ const fetchCards = async () => {
 };
 
 const useCards = create<UseCardsInterface>((set) => ({
-<<<<<<< Updated upstream
 	cards: [],
 	replaceCard(index1, status1, index2, status2) {
 		set((state) => {
@@ -117,27 +101,6 @@ const useCards = create<UseCardsInterface>((set) => ({
 		}
 	},
 }));
-=======
-    cards: [],
-    fetchCards: async () => {
-        const data = await fetchCards()
-        set({ cards: data })
-    },
-    addCard: async (card: ICard) => {
-        await axios.post('https://663baf1ffee6744a6ea2910b.mockapi.io/cards', card)
-        const data = await fetchCards()
-        set({ cards: data })
-    },
-    updateCard: async (card: ICard) => {
-        await axios.put(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${card.id}`, card)
-        const data = await fetchCards()
-        set({ cards: data })
-    },
-    deleteCard: async (id: string) => {
-        await axios.delete(`https://663baf1ffee6744a6ea2910b.mockapi.io/cards/${id}`)
-        const data = await fetchCards()
-        set({ cards: data })
-    },
->>>>>>> Stashed changes
+
 
 export default useCards;

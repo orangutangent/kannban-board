@@ -6,8 +6,6 @@ export interface IEditCardModal {
     setEditCardId: (id:number) => void
     setOpen: () => void
     setClose: () => void
-    editCardId: string
-    setEditCardId: (id: string) => void
 }
 
 const useEditCardModal = create<IEditCardModal>((set) => ({
