@@ -33,7 +33,6 @@ const useCards = create<UseCardsInterface>((set) => ({
 	replaceCard(index1, status1, index2, status2) {
 		set((state) => {
 			const newCards = [...state.cards];
-			// console.log(index1, status1, index2, status2);
 			if (status1 === status2) {
 				[newCards[index1], newCards[index2]] = [newCards[index2], newCards[index1]];
 			} else {
