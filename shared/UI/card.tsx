@@ -86,7 +86,7 @@ const Card = (card: IProps) => {
 			onDrop={(e) => dropHandler(e, card)}
 		>
 			<h3 className='text-ellipsis overflow-hidden font-medium text-sm text-black'>{card.title}</h3>
-			<Image priority src={trashcan} alt='trashcan' width={10} className={active ? 'absolute right-[20px] top-[8px] ' : 'hidden'}></Image>
+			
 			<Image
 				priority
 				src={trashcan}
