@@ -19,18 +19,12 @@ export default function Column(column: IColumn) {
 	const { setOpen: setCreateCardModalOpen,setStatus } = useCreateCardModal();
 	const [isHovered, setIsHovered] = useState(false);
 
-	const { cards } = useCards();
+	const { cards, addCardInEmptyColumn } = useCards();
 	const { columns, replaceColumn } = useColumns();
 
-	
-
-
-	const CardMap = (data: ICard, index:number) => {
-		return data.status === column.title && (
-			<Card1 color={column.color} {...data} key={index} />
-		) ;
-	}
-	
+	const CardMap = (data: ICard, index: number) => {
+		return data.status === column.title && <Card1 color={column.color} {...data} key={index} />;
+	};
 
 	const dragStartHandler = (event: React.DragEvent<HTMLLIElement>, column: IColumn) => {
 		if (event.target === event.currentTarget) {
@@ -43,17 +37,20 @@ export default function Column(column: IColumn) {
 		event.preventDefault();
 		event.currentTarget.style.boxShadow = 'none';
 		const draggedItem = JSON.parse(event.dataTransfer.getData('text/plain'));
+		const draggedCardIndex = draggedItem.index;
+		const columnTitle = column.title;
 		if (draggedItem.type === 'column') {
 			const columnIndex2 = columns.findIndex((col) => col.id === column.id);
 			replaceColumn(draggedItem.index, columnIndex2);
+		} else if (draggedItem.type === 'card' && !cards.find((card) => card.status === columnTitle)) {
+			addCardInEmptyColumn(draggedCardIndex, columnTitle);
 		}
 	};
 
 	const dragOverHandler = (event: React.DragEvent<HTMLLIElement>) => {
 		event.preventDefault();
-		if (!event.dataTransfer.types.includes('text/plain')) {
-			event.currentTarget.style.boxShadow = '4px 4px 4px gray';
-		}
+
+		event.currentTarget.style.boxShadow = '0px -4px 0px gray';
 	};
 
 	const dragLeaveHandler = (event: React.DragEvent<HTMLLIElement>) => {
@@ -81,11 +78,10 @@ export default function Column(column: IColumn) {
 			onDragStart={(e) => dragStartHandler(e, column)}
 			onDrop={(e) => dropHandler(e, column)}
 		>
-			<h2 className='text-2xl font-bold mb-[12px] lg:text-xl md:text-base '>
-				{column.title}
-			</h2>
+			<h2 className='text-2xl font-bold mb-[12px] lg:text-xl md:text-base '>{column.title}</h2>
 			{isHovered && (
 				<div className='flex gap-[8px] absolute right-[6px] top-[6px]'>
+
 
 					<Image
 						priority
@@ -110,17 +106,14 @@ export default function Column(column: IColumn) {
 						className='cursor-pointer'
 						onClick={createCardHandler}
 					></Image>
+
 				</div>
 			)}
 			{/* {modalEdit && <Modal isOpen={} />} */}
 			{/* {modalAddColumn && <Modal />} */}
-			<ul
-				className='border-[#D6D8DB] border p-[24px] rounded flex flex-col gap-[24px]'
-				style={{ backgroundColor: column.color }}
-			>
+			<ul className='border-[#D6D8DB] border p-[24px] rounded flex flex-col gap-[24px]' style={{ backgroundColor: column.color }}>
 				{cards.map(CardMap)}
 			</ul>
 		</li>
 	);
 }
-
