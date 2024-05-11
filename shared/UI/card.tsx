@@ -1,4 +1,3 @@
-
 'use client';
 import trashcan from '@/public/icons/trashcan.svg';
 import Image from 'next/image';
@@ -10,7 +9,6 @@ import useCards from '@/features/useCards';
 
 import useEditCardModal from '@/features/useEditCardModal';
 import useCreateCardModal from '@/features/useCreateCardModal';
-
 
 interface IProps {
 	id?: number;
@@ -34,7 +32,6 @@ const Card = (card: IProps) => {
 			event.dataTransfer.setData('text/plain', JSON.stringify({ type: 'card', index: cardIndex }));
 		}
 	};
-
 
 	const dropHandler = (event: React.DragEvent<HTMLLIElement>, card: IProps) => {
 		event.preventDefault();
@@ -64,7 +61,7 @@ const Card = (card: IProps) => {
 		setEditCardId(card.id);
 		setEditCardModalOpen();
 	};
-	
+
 	return (
 		<li
 			className='p-4  w-full box-border list-none font-sans bg-white rounded shadow-md flex flex-col gap-[8px] relative transition-all cursor-pointer'
@@ -76,29 +73,17 @@ const Card = (card: IProps) => {
 			onDragStart={(e) => dragStartHandler(e, card)}
 			onDrop={(e) => dropHandler(e, card)}
 		>
-			<h3 className='font-medium text-sm text-black'>{card.title}</h3>
+			<h3 className='text-ellipsis overflow-hidden font-medium text-sm text-black'>{card.title}</h3>
 
-
+			<Image priority src={trashcan} alt='trashcan' width={10} className={active ? 'absolute right-[20px] top-[8px] ' : 'hidden'}></Image>
 			<Image
 				priority
-				src={trashcan}
-				alt='trashcan'
-				width={10}
-				className={
-					active ? 'absolute right-[20px] top-[8px] ' : 'hidden'
-				}
-			></Image>
-			<Image
-				priority
-        onClick={handleEdit}
+				onClick={handleEdit}
 				src={edit}
 				alt='edit'
 				width={10}
-				className={
-					active ? 'absolute right-[8px] top-[8px] ' : 'hidden'
-				}
+				className={active ? 'absolute right-[8px] top-[8px] ' : 'hidden'}
 			></Image>
-
 
 			<p className='font-normal text-xs font-sans text-[#6C6C6C] box-border '>{card.description}</p>
 			<Status title={card.status} color={card.color} />

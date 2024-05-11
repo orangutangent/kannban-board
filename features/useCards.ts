@@ -18,7 +18,6 @@ interface UseCardsInterface {
 	addCard: (card: ICard) => void;
 	updateCard: (card: ICard) => void;
 	deleteCard: (id: number) => void;
-
 }
 
 const fetchCards = async () => {
@@ -93,6 +92,5 @@ const useCards = create<UseCardsInterface>((set) => ({
 		}
 	},
 }));
-
 
 export default useCards;

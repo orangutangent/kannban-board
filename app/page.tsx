@@ -48,7 +48,6 @@ export default function Home() {
 		<main className='w-screen h-screen relative'>
 			<CreateColumnBtn />
 
-
 			<ul className='flex m-[40px] gap-[24px]'>
 				{columns.map((data, index) => (
 					<Column {...data} key={index} />

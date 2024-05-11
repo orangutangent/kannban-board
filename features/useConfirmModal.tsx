@@ -1,15 +1,15 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 interface IConfirmModal {
-    isOpen: boolean
-    setOpen: () => void
-    setClose: () => void
+	isOpen: boolean;
+	setOpen: () => void;
+	setClose: () => void;
 }
 
- const useConfirmModal = create<IConfirmModal>((set) => ({
-    isOpen: false,
-    setOpen: () => set({isOpen:true}),
-    setClose: () => set({isOpen:false})
-}))
+const useConfirmModal = create<IConfirmModal>((set) => ({
+	isOpen: false,
+	setOpen: () => set({ isOpen: true }),
+	setClose: () => set({ isOpen: false }),
+}));
 
-export default useConfirmModal
+export default useConfirmModal;
