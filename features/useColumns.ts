@@ -69,7 +69,9 @@ const useColumns = create<UseColumnsInterface>((set) => ({
 	},
 	deleteColumn: async (id: string) => {
 		try {
-			await axios.delete(`/https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${id}`);
+			await axios.delete(
+				`https://663baf1ffee6744a6ea2910b.mockapi.io/columns/${id}`
+			);
 			const data = await fetchColumns();
 			set({ columns: data });
 		} catch (error) {

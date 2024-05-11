@@ -12,14 +12,16 @@ import edit from '../public/icons/edit.svg';
 import plus from '../public/icons/plus.svg';
 import useEditColumnModal from '@/features/useEditColumnModal';
 import useCreateCardModal from '@/features/useCreateCardModal';
+import useConfirmModal from '@/features/useConfirmModal';
 
 export default function Column(column: IColumn) {
-	const { setEditColumnId, setOpen: setEditColumnModalOpen } = useEditColumnModal();
-	const { setOpen: setCreateCardModalOpen, setStatus } = useCreateCardModal();
 	const [isHovered, setIsHovered] = useState(false);
 
-	const { cards, addCardInEmptyColumn } = useCards();
-	const { columns, replaceColumn } = useColumns();
+  const {setOpen:setConfirmModalOpen,setTitle,setText, setActionLabel, setOnConfirmFunc} = useConfirmModal();
+	const {setEditColumnId, setOpen: setEditColumnModalOpen} = useEditColumnModal();
+	const { setOpen: setCreateCardModalOpen,setStatus } = useCreateCardModal();
+	const { cards, addCardInEmptyColumn,deleteCard } = useCards();
+	const { columns, replaceColumn, deleteColumn } = useColumns();
 
 	const CardMap = (data: ICard, index: number) => {
 		return data.status === column.title && <Card1 color={column.color} {...data} key={index} />;
@@ -66,6 +68,24 @@ export default function Column(column: IColumn) {
 		setCreateCardModalOpen();
 	};
 
+	const deleteColumnHandler = (e: any) => {
+		e.preventDefault();
+		setTitle('Are you sure you want to delete this column?');
+		setText('This action cannot be undone.');
+		setActionLabel('Delete');
+		setOnConfirmFunc(() => {
+			const cardsToDelete = cards.filter(
+				(card) => card.status === column.title
+			);
+			cardsToDelete.forEach((card) => {
+				card.id && deleteCard(card.id);
+			});
+			deleteColumn(column.id);
+		});
+		setConfirmModalOpen();
+	};
+
+
 	return (
 		<li
 			className='custom-column relative list-none w-[256px] bg-none z-0 min-w-[220px] sm:min-w-[240px]'
@@ -80,13 +100,32 @@ export default function Column(column: IColumn) {
 			<h2 className='text-ellipsis overflow-hidden w-4/6 text-2xl font-bold mb-[12px] lg:text-xl md:text-base '>{column.title}</h2>
 			{isHovered && (
 				<div className='flex gap-[8px] absolute right-[6px] top-[6px]'>
-					<Image priority src={trashcan} alt='trashcan' width={16} className='cursor-pointer'></Image>
-					<Image priority src={edit} alt='edit' width={16} className='cursor-pointer' onClick={editColumnHandler}></Image>
-					<Image priority src={plus} alt='plus' width={16} className='cursor-pointer' onClick={createCardHandler}></Image>
+					<Image
+						priority
+						src={trashcan}
+						alt='trashcan'
+						width={16}
+						className='cursor-pointer'
+						onClick={(e)=>deleteColumnHandler(e)}
+					></Image>
+					<Image
+						priority
+						src={edit}
+						alt='edit'
+						width={16}
+						className='cursor-pointer'
+						onClick={editColumnHandler}
+					></Image>
+					<Image
+						priority
+						src={plus}
+						alt='plus'
+						width={16}
+						className='cursor-pointer'
+						onClick={createCardHandler}
+					></Image>
 				</div>
 			)}
-			{/* {modalEdit && <Modal isOpen={} />} */}
-			{/* {modalAddColumn && <Modal />} */}
 			<ul className='border-[#D6D8DB] border p-[24px] rounded flex flex-col gap-[24px]' style={{ backgroundColor: column.color }}>
 				{cards.map(CardMap)}
 			</ul>
