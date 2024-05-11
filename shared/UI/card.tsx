@@ -1,15 +1,14 @@
 'use client';
+import useCards from '@/features/useCards';
 import trashcan from '@/public/icons/trashcan.svg';
 import Image from 'next/image';
 import { useState } from 'react';
 import edit from './../../public/icons/edit.svg';
 import Status from './status';
 import Tag from './tag';
-import useCards from '@/features/useCards';
 
-import useEditCardModal from '@/features/useEditCardModal';
-import useCreateCardModal from '@/features/useCreateCardModal';
 import useConfirmModal from '@/features/useConfirmModal';
+import useEditCardModal from '@/features/useEditCardModal';
 
 interface IProps {
 	id?: number;
@@ -92,8 +91,8 @@ const Card = (card: IProps) => {
 				priority
 				src={trashcan}
 				alt='trashcan'
-				width={10}
-				className={active ? 'absolute right-[20px] top-[8px] ' : 'hidden'}
+				width={14}
+				className={active ? 'absolute right-[26px] top-[8px] ' : 'hidden'}
 				onClick={deleteHandler}
 			></Image>
 			<Image
@@ -101,7 +100,7 @@ const Card = (card: IProps) => {
 				onClick={handleEdit}
 				src={edit}
 				alt='edit'
-				width={10}
+				width={14}
 				className={active ? 'absolute right-[8px] top-[8px] ' : 'hidden'}
 			></Image>
 			<p className='font-normal text-xs font-sans text-[#6C6C6C] box-border '>
