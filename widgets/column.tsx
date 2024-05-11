@@ -58,7 +58,7 @@ export default function Column(column: IColumn) {
 
 	return (
 		<li
-			className='custom-column relative list-none w-[256px] bg-none z-0 min-w-[220px]'
+			className='custom-column relative list-none w-[256px] bg-none z-0 min-w-[220px] sm:min-w-[240px]'
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			draggable={true}
@@ -73,12 +73,14 @@ export default function Column(column: IColumn) {
 			{isHovered && (
 				<div className='flex gap-[8px] absolute right-[6px] top-[6px]'>
 					<Image
+						priority
 						src={trashcan}
 						alt='trashcan'
 						width={16}
 						className='cursor-pointer'
 					></Image>
 					<Image
+						priority
 						src={edit}
 						alt='edit'
 						width={16}
@@ -86,6 +88,7 @@ export default function Column(column: IColumn) {
 						onClick={() => setModalEdit(true)}
 					></Image>
 					<Image
+						priority
 						src={plus}
 						alt='plus'
 						width={16}
