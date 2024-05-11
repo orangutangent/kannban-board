@@ -1,7 +1,8 @@
 'use client';
 
+import {  useEffect, useState } from 'react';
+
 import Image from 'next/image';
-import { useState } from 'react';
 
 import useCards, { ICard } from '@/features/useCards';
 import useColumns, { IColumn } from '@/features/useColumns';
@@ -9,11 +10,14 @@ import trashcan from '@/public/icons/trashcan.svg';
 import Card1 from '@/shared/UI/card';
 import edit from '../public/icons/edit.svg';
 import plus from '../public/icons/plus.svg';
+import useEditColumnModal from '@/features/useEditColumnModal';
+import useCreateCardModal from '@/features/useCreateCardModal';
+
 
 export default function Column(column: IColumn) {
+	const {setEditColumnId, setOpen: setEditColumnModalOpen} = useEditColumnModal();
+	const { setOpen: setCreateCardModalOpen,setStatus } = useCreateCardModal();
 	const [isHovered, setIsHovered] = useState(false);
-	const [modalEdit, setModalEdit] = useState(false);
-	const [modalAddColumn, setModalAddColumn] = useState(false);
 
 	const { cards, addCardInEmptyColumn } = useCards();
 	const { columns, replaceColumn } = useColumns();
@@ -53,9 +57,19 @@ export default function Column(column: IColumn) {
 		event.currentTarget.style.boxShadow = 'none';
 	};
 
+	const editColumnHandler = () => {
+		setEditColumnId(column.id);
+		setEditColumnModalOpen();
+	}
+
+	const createCardHandler = () => {
+		setStatus(column.title);
+		setCreateCardModalOpen();
+	}
+
 	return (
 		<li
-			className='custom-column relative list-none w-[256px] bg-none z-0 min-w-[220px]'
+			className='custom-column relative list-none w-[256px] bg-none z-0 min-w-[220px] sm:min-w-[240px]'
 			onMouseEnter={() => setIsHovered(true)}
 			onMouseLeave={() => setIsHovered(false)}
 			draggable={true}
@@ -67,9 +81,32 @@ export default function Column(column: IColumn) {
 			<h2 className='text-2xl font-bold mb-[12px] lg:text-xl md:text-base '>{column.title}</h2>
 			{isHovered && (
 				<div className='flex gap-[8px] absolute right-[6px] top-[6px]'>
-					<Image src={trashcan} alt='trashcan' width={16} className='cursor-pointer'></Image>
-					<Image src={edit} alt='edit' width={16} className='cursor-pointer' onClick={() => setModalEdit(true)}></Image>
-					<Image src={plus} alt='plus' width={16} className='cursor-pointer' onClick={() => setModalAddColumn(true)}></Image>
+
+
+					<Image
+						priority
+						src={trashcan}
+						alt='trashcan'
+						width={16}
+						className='cursor-pointer'
+					></Image>
+					<Image
+						priority
+						src={edit}
+						alt='edit'
+						width={16}
+						className='cursor-pointer'
+						onClick={editColumnHandler}
+					></Image>
+					<Image
+						priority
+						src={plus}
+						alt='plus'
+						width={16}
+						className='cursor-pointer'
+						onClick={createCardHandler}
+					></Image>
+
 				</div>
 			)}
 			{/* {modalEdit && <Modal isOpen={} />} */}

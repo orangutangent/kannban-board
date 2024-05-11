@@ -6,6 +6,10 @@ import { useState } from 'react';
 import edit from './../../public/icons/edit.svg';
 import Status from './status';
 import Tag from './tag';
+import useCards from '@/features/useCards';
+import useEditCardModal from '@/features/useEditCardModal';
+import useCreateCardModal from '@/features/useCreateCardModal';
+
 
 interface IProps {
 	id?: number;
@@ -17,6 +21,7 @@ interface IProps {
 }
 
 const Card = (card: IProps) => {
+	const { setEditCardId, setOpen: setEditCardModalOpen } = useEditCardModal();
 	const { cards, replaceCard } = useCards();
 
 	const dragStartHandler = (event: React.DragEvent<HTMLLIElement>, card: IProps) => {
@@ -48,6 +53,13 @@ const Card = (card: IProps) => {
 	};
 
 	const [active, setActive] = useState(false);
+
+	const handleEdit = () => {
+		if (!card.id) return;
+		setEditCardId(card.id);
+		setEditCardModalOpen();
+	};
+	
 	return (
 		<li
 			className='p-4  w-full box-border list-none font-sans bg-white rounded shadow-md flex flex-col gap-[8px] relative transition-all cursor-pointer'
@@ -60,8 +72,28 @@ const Card = (card: IProps) => {
 			onDrop={(e) => dropHandler(e, card)}
 		>
 			<h3 className='font-medium text-sm text-black'>{card.title}</h3>
-			<Image src={trashcan} alt='trashcan' width={10} className={active ? 'absolute right-[20px] top-[8px] ' : 'hidden'}></Image>
-			<Image src={edit} alt='edit' width={10} className={active ? 'absolute right-[8px] top-[8px] ' : 'hidden'}></Image>
+
+
+			<Image
+				priority
+				src={trashcan}
+				alt='trashcan'
+				width={10}
+				className={
+					active ? 'absolute right-[20px] top-[8px] ' : 'hidden'
+				}
+			></Image>
+			<Image
+				priority
+        onClick={handleEdit}
+				src={edit}
+				alt='edit'
+				width={10}
+				className={
+					active ? 'absolute right-[8px] top-[8px] ' : 'hidden'
+				}
+			></Image>
+
 
 			<p className='font-normal text-xs font-sans text-[#6C6C6C] box-border '>{card.description}</p>
 			<Status title={card.status} color={card.color} />
