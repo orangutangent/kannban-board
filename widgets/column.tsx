@@ -1,18 +1,18 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Image from 'next/image';
 
 import useCards, { ICard } from '@/features/useCards';
 import useColumns, { IColumn } from '@/features/useColumns';
+import useConfirmModal from '@/features/useConfirmModal';
+import useCreateCardModal from '@/features/useCreateCardModal';
+import useEditColumnModal from '@/features/useEditColumnModal';
 import trashcan from '@/public/icons/trashcan.svg';
 import Card1 from '@/shared/UI/card';
 import edit from '../public/icons/edit.svg';
 import plus from '../public/icons/plus.svg';
-import useEditColumnModal from '@/features/useEditColumnModal';
-import useCreateCardModal from '@/features/useCreateCardModal';
-import useConfirmModal from '@/features/useConfirmModal';
 
 export default function Column(column: IColumn) {
 	const [isHovered, setIsHovered] = useState(false);
@@ -97,7 +97,7 @@ export default function Column(column: IColumn) {
 			onDragStart={(e) => dragStartHandler(e, column)}
 			onDrop={(e) => dropHandler(e, column)}
 		>
-			<h2 className='text-ellipsis overflow-hidden w-4/6 text-2xl font-bold mb-[12px] lg:text-xl md:text-base '>{column.title}</h2>
+			<h2 className='text-ellipsis overflow-hidden w-4/6 text-xl font-bold mb-[12px] lg:text-2xl  '>{column.title}</h2>
 			{isHovered && (
 				<div className='flex gap-[8px] absolute right-[6px] top-[6px]'>
 					<Image
