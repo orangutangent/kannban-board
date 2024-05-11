@@ -10,7 +10,7 @@ interface Props {
 const SelectColor: React.FC<Props> = ({ value, onChange }) => {
 	const colors = Object.values(columnColors);
 	return (
-		<div className='w-max flex flex-wrap gap-[8px] p-[10px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] rounded'>
+		<div className='w-fit flex flex-wrap gap-[8px] p-[10px] shadow-[0px_2px_4px_rgba(0,0,0,0.15)] rounded'>
 			{colors.map((color) => (
 				<div
 					onClick={() => onChange(color)}

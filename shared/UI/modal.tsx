@@ -32,7 +32,7 @@ const Modal: React.FC<Props> = ({ title, body, onClose, onSubmit, actionLabel, i
 						onClick={(e) => {
 							e.stopPropagation();
 						}}
-						className='w-full  max-w-[500px] p-[20px] rounded-[8px] bg-white flex flex-col space-y-4'
+						className='w-full overflow-hidden max-w-[500px] p-[20px] rounded-[8px] bg-white flex flex-col space-y-4'
 					>
 						<h1 className='w-full text-[24px] font-[500] text-black '>{title}</h1>
 						<form action='' onSubmit={onSubmit} className='flex flex-col w-full gap-4'>
